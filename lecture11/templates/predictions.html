@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">MyApp</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Sign Up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <div class="container mt-5">
+        <h1>Prediction Page</h1>
+        <p>Enter your data to get predictions.</p>
+
+        <form id="predictionForm">
+            <div class="mb-3">
+                <label for="open" class="form-label">Open</label>
+                <input type="text" class="form-control" id="open" name="open" required>
+            </div>
+            <div class="mb-3">
+                <label for="low" class="form-label">Low</label>
+                <input type="text" class="form-control" id="low" name="low" required>
+            </div>
+            <div class="mb-3">
+                <label for="close" class="form-label">Close</label>
+                <input type="text" class="form-control" id="close" name="close" required>
+            </div>
+            <div class="mb-3">
+                <label for="adj" class="form-label">Adjusted Close</label>
+                <input type="text" class="form-control" id="adj" name="adj" required>
+            </div>
+            <div class="mb-3">
+                <label for="vol" class="form-label">Volume</label>
+                <input type="text" class="form-control" id="vol" name="vol" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Get Prediction</button>
+        </form>
+
+        <div id="predictionResult" class="mt-4"></div>
+    </div>
+
+    <script>
+        document.getElementById('predictionForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const formData = {
+                open: document.getElementById('open').value,
+                low: document.getElementById('low').value,
+                close: document.getElementById('close').value,
+                adj: document.getElementById('adj').value,
+                vol: document.getElementById('vol').value
+            };
+            const response = await fetch('/find_data_daily', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+            const result = await response.json();
+            document.getElementById('predictionResult').innerText = `Prediction: ${result.message}`;
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding-left: 0;
+    list-style: none;
+    margin: 0;
+  }
+  
+  .pagination .page-item {
+    margin: 0 2px;
+  }
+  
+  .pagination .page-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    text-decoration: none;
+    border-radius: 0.25rem;
+  }
+  .chart-container {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    overflow-y: hidden; /* Prevents vertical scrolling */
+  }
+  canvas {
+    display: block; /* Prevents extra space below canvas */
+  }  

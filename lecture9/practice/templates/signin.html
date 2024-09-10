@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}
+Signin
+{% endblock %}
+
+
+{% block body %}
+<div class="container d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <h1 class="text-center mb-4">Fill Information</h1>
+
+    <div class="mb-3 w-50">
+        <label for="inputLow" class="form-label">email</label>
+        <input type="email" class="form-control" id="inputLow" name="email" required>
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="inputBTC" class="form-label">password</label>
+        <input type="password" class="form-control" id="inputBTC" name="pass" required>
+    </div>
+
+    <div class="mb-3 form-check w-50">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+
+    <button onclick="signin()" class="btn btn-primary w-25">Sign in</button>
+</div>
+
+<p class="message">a</p>
+
+<!-- JavaScript for handling form submission -->
+<script>
+function signin(){
+    let email = document.getElementsByName("email")[0].value;
+    let pass = document.getElementsByName("pass")[0].value;
+    let result = document.getElementsByClassName("message");
+    let data = {email: email, pass: pass};
+
+    resp =fetch('/signin_validation', {
+        headers: {
+            "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+    })
+    resp.then((resp) => resp.json())
+    .then((data) => {
+        console.log(data.message,result[0].value);
+        if (result.length > 0) {  // Ensure that the element exists
+            result[0].innerHTML = data.message;  // Update the first element with class 'message'
+        } else {
+            console.log("No elements with class 'message' found");
+        }  // Assuming your backend sends a 'message' field
+    }).catch((error) => console.error('Error:', error));
+}
+</script>
+{% endblock %}

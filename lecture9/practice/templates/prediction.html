@@ -1,0 +1,67 @@
+{%extends "base.html"%}
+{%block title%}
+prediction
+{%endblock%}
+{%block body%}
+<div class="container d-flex flex-column justify-content-center align-items-center" style="height: 100vh;">
+    <h1 class="text-center mb-4">Fill Information</h1>
+
+    <div class="mb-3 w-50">
+        <label for="inputOpen" class="form-label">Open</label>
+        <input type="number" class="form-control" id="inputOpen" name="open" required>
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="inputLow" class="form-label">Low</label>
+        <input type="number" class="form-control" id="inputLow" name="low" required>
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="inputBTC" class="form-label">BTC</label>
+        <input type="number" class="form-control" id="inputBTC" name="btc" required>
+    </div>
+
+    <div class="mb-3 w-50">
+        <label for="inputVolume" class="form-label">Volume</label>
+        <input type="number" class="form-control" id="inputVolume" name="vol" required>
+    </div>
+
+    <div class="mb-3 form-check w-50">
+        <input type="checkbox" class="form-check-input" id="exampleCheck1" name="check">
+        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+    </div>
+
+    <button onclick="get_data()" class="btn btn-primary w-25">Submit</button>
+</div>
+
+<h1 class = "res"></h1>
+<script>
+function get_data(){
+ let open= document.getElementsByName("open")[0].value
+let low = document.getElementsByName("low")[0].value
+let btc = document.getElementsByName("btc")[0].value
+let vol = document.getElementsByName("vol")[0].value
+
+
+let resp = document.getElementsByClassName("res")
+
+
+data = {open:open,low:low,btc:btc,vol:vol}
+
+ var res = fetch('/data',
+{headers:{
+
+"Content-Type" : "application/json"
+},
+method:"POST",
+body:JSON.stringify(data)})
+
+
+res.then((res)=>res.json()).then((data)=>{
+  console.log(data.message)
+  resp[0].innerHTML =data.message
+}).catch((error)=>console.log(error))
+}
+</script>
+
+{%endblock body%}
